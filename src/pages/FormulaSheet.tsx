@@ -688,39 +688,29 @@ export default function FormulaSheet({
 
   const [search, setSearch] = useState("")
 
-  const filteredFormulas = useMemo(() => {
-    const query = search.trim().toLowerCase()
+ const allFormulas = [...formulas, ...expandedFormulas]
 
-    return formulas.filter((formula) => {
-      const categoryMatch =
-        category === "All" ||
-        formula.category === category ||
-        (category === "Chemistry" &&
-          [
-            "Moles",
-            "Concentration",
-            "Acids & Bases",
-            "Stoichiometry",
-            "Rates",
-            "Equilibrium",
-            "Electrochemistry",
-            "Gases",
-            "Thermochemistry",
-            "Organic Chemistry",
-          ].includes(formula.category))
+const filteredFormulas = useMemo(() => {
+  const query = search.trim().toLowerCase()
 
-      const searchMatch =
-        !query ||
-        formula.name.toLowerCase().includes(query) ||
-        formula.category.toLowerCase().includes(query) ||
-        formula.formula.toLowerCase().includes(query) ||
-        formula.variables.toLowerCase().includes(query) ||
-        formula.use.toLowerCase().includes(query)
+  return allFormulas.filter((formula) => {
+    const categoryMatch =
+      category === "All" ||
+      formula.category === category
 
-      return categoryMatch && searchMatch
-    })
-  }, [category, search])
+    const searchMatch =
+      !query ||
+      formula.name.toLowerCase().includes(query) ||
+      formula.category.toLowerCase().includes(query) ||
+      formula.formula.toLowerCase().includes(query) ||
+      formula.variables.toLowerCase().includes(query) ||
+      formula.units.toLowerCase().includes(query) ||
+      formula.use.toLowerCase().includes(query) ||
+      (formula.caution?.toLowerCase().includes(query) ?? false)
 
+    return categoryMatch && searchMatch
+  })
+}, [category, search])
   return (
     <section className="page-shell formula-sheet-page">
       <div className="page-header">
@@ -883,3 +873,876 @@ export default function FormulaSheet({
     </section>
   )
 }
+// =========================================================
+// EXPANDED SCIENTIFIC FORMULA LIBRARY
+// SCHOOL → UNIVERSITY → RESEARCH
+// =========================================================
+
+const expandedFormulas: Formula[] = [
+  // =========================================================
+  // MATHEMATICS — ALGEBRA
+  // =========================================================
+
+  {
+    name: "Linear Equation",
+    category: "Statistics",
+    formula: "ax + b = 0  →  x = −b/a",
+    variables: "a, b = constants · x = unknown",
+    units: "Depends on quantity",
+    use: "Solve a first-degree linear equation.",
+  },
+
+  {
+    name: "Quadratic Formula",
+    category: "Statistics",
+    formula: "x = (−b ± √(b² − 4ac)) / 2a",
+    variables: "a, b, c = coefficients · x = roots",
+    units: "Depends on equation",
+    use: "Solve quadratic equations.",
+  },
+
+  {
+    name: "Discriminant",
+    category: "Statistics",
+    formula: "Δ = b² − 4ac",
+    variables: "a, b, c = quadratic coefficients",
+    units: "Depends on equation",
+    use: "Determine the nature and number of quadratic roots.",
+  },
+
+  {
+    name: "Difference of Squares",
+    category: "Statistics",
+    formula: "a² − b² = (a − b)(a + b)",
+    variables: "a, b = algebraic quantities",
+    units: "Depends on quantity",
+    use: "Factorise expressions involving a difference of squares.",
+  },
+
+  {
+    name: "Arithmetic Sequence",
+    category: "Statistics",
+    formula: "aₙ = a₁ + (n − 1)d",
+    variables: "aₙ = nth term · a₁ = first term · d = common difference",
+    units: "Same as sequence",
+    use: "Calculate a term in an arithmetic sequence.",
+  },
+
+  {
+    name: "Arithmetic Series",
+    category: "Statistics",
+    formula: "Sₙ = n/2[2a₁ + (n − 1)d]",
+    variables: "Sₙ = sum · n = number of terms · a₁ = first term · d = difference",
+    units: "Same as sequence",
+    use: "Calculate the sum of an arithmetic sequence.",
+  },
+
+  {
+    name: "Geometric Sequence",
+    category: "Statistics",
+    formula: "aₙ = a₁rⁿ⁻¹",
+    variables: "aₙ = nth term · a₁ = first term · r = common ratio",
+    units: "Same as sequence",
+    use: "Calculate a term in a geometric sequence.",
+  },
+
+  {
+    name: "Finite Geometric Series",
+    category: "Statistics",
+    formula: "Sₙ = a₁(1 − rⁿ)/(1 − r)",
+    variables: "a₁ = first term · r = common ratio · n = number of terms",
+    units: "Same as sequence",
+    use: "Calculate the sum of a finite geometric series.",
+  },
+
+  {
+    name: "Infinite Geometric Series",
+    category: "Statistics",
+    formula: "S∞ = a₁/(1 − r),  |r| < 1",
+    variables: "a₁ = first term · r = common ratio",
+    units: "Same as sequence",
+    use: "Calculate the sum of a convergent infinite geometric series.",
+  },
+
+  // =========================================================
+  // MATHEMATICS — EXPONENTS & LOGARITHMS
+  // =========================================================
+
+  {
+    name: "Exponent Product Rule",
+    category: "Statistics",
+    formula: "aᵐaⁿ = aᵐ⁺ⁿ",
+    variables: "a = base · m,n = exponents",
+    units: "Dimensionless",
+    use: "Simplify products with the same base.",
+  },
+
+  {
+    name: "Exponent Quotient Rule",
+    category: "Statistics",
+    formula: "aᵐ/aⁿ = aᵐ⁻ⁿ",
+    variables: "a = base · m,n = exponents",
+    units: "Dimensionless",
+    use: "Simplify quotients with the same base.",
+  },
+
+  {
+    name: "Power of a Power",
+    category: "Statistics",
+    formula: "(aᵐ)ⁿ = aᵐⁿ",
+    variables: "a = base · m,n = exponents",
+    units: "Dimensionless",
+    use: "Simplify nested powers.",
+  },
+
+  {
+    name: "Logarithm Definition",
+    category: "Statistics",
+    formula: "log_b(x) = y  ⇔  bʸ = x",
+    variables: "b = base · x = argument · y = logarithm",
+    units: "Dimensionless",
+    use: "Convert between logarithmic and exponential form.",
+  },
+
+  {
+    name: "Change of Base",
+    category: "Statistics",
+    formula: "log_b(x) = log(x)/log(b)",
+    variables: "b = logarithm base · x = argument",
+    units: "Dimensionless",
+    use: "Evaluate logarithms using another base.",
+  },
+
+  // =========================================================
+  // MATHEMATICS — TRIGONOMETRY
+  // =========================================================
+
+  {
+    name: "Pythagorean Theorem",
+    category: "Experimental",
+    formula: "a² + b² = c²",
+    variables: "a,b = perpendicular sides · c = hypotenuse",
+    units: "Length",
+    use: "Calculate an unknown side of a right-angled triangle.",
+  },
+
+  {
+    name: "Sine Rule",
+    category: "Experimental",
+    formula: "a/sin A = b/sin B = c/sin C",
+    variables: "a,b,c = side lengths · A,B,C = opposite angles",
+    units: "Lengths and degrees/radians",
+    use: "Solve non-right-angled triangles.",
+  },
+
+  {
+    name: "Cosine Rule",
+    category: "Experimental",
+    formula: "c² = a² + b² − 2ab cos C",
+    variables: "a,b,c = side lengths · C = included angle",
+    units: "Length and angle",
+    use: "Find a side or angle in a non-right triangle.",
+  },
+
+  {
+    name: "Sine of an Angle",
+    category: "Experimental",
+    formula: "sin θ = opposite / hypotenuse",
+    variables: "θ = angle",
+    units: "Dimensionless",
+    use: "Relate an angle to sides in a right triangle.",
+  },
+
+  {
+    name: "Cosine of an Angle",
+    category: "Experimental",
+    formula: "cos θ = adjacent / hypotenuse",
+    variables: "θ = angle",
+    units: "Dimensionless",
+    use: "Relate an angle to sides in a right triangle.",
+  },
+
+  {
+    name: "Tangent of an Angle",
+    category: "Experimental",
+    formula: "tan θ = opposite / adjacent",
+    variables: "θ = angle",
+    units: "Dimensionless",
+    use: "Relate an angle to sides in a right triangle.",
+  },
+
+  // =========================================================
+  // MATHEMATICS — ANALYTICAL GEOMETRY
+  // =========================================================
+
+  {
+    name: "Gradient",
+    category: "Experimental",
+    formula: "m = (y₂ − y₁)/(x₂ − x₁)",
+    variables: "m = gradient · (x₁,y₁),(x₂,y₂) = points",
+    units: "y-units per x-unit",
+    use: "Calculate the gradient of a straight line.",
+  },
+
+  {
+    name: "Straight-Line Equation",
+    category: "Experimental",
+    formula: "y = mx + c",
+    variables: "m = gradient · c = y-intercept",
+    units: "Depends on axes",
+    use: "Represent a straight line.",
+  },
+
+  {
+    name: "Distance Between Two Points",
+    category: "Experimental",
+    formula: "d = √[(x₂ − x₁)² + (y₂ − y₁)²]",
+    variables: "Coordinates define the two points.",
+    units: "Coordinate units",
+    use: "Calculate distance between two points.",
+  },
+
+  {
+    name: "Midpoint",
+    category: "Experimental",
+    formula: "M = ((x₁+x₂)/2, (y₁+y₂)/2)",
+    variables: "Coordinates define the endpoints.",
+    units: "Coordinate units",
+    use: "Find the midpoint of a line segment.",
+  },
+
+  // =========================================================
+  // MATHEMATICS — CALCULUS
+  // =========================================================
+
+  {
+    name: "Derivative Definition",
+    category: "Statistics",
+    formula: "f′(x) = lim[h→0] [f(x+h) − f(x)]/h",
+    variables: "f(x) = function · h = change in x",
+    units: "Rate of change",
+    use: "Define the derivative of a function.",
+  },
+
+  {
+    name: "Power Rule",
+    category: "Statistics",
+    formula: "d/dx(xⁿ) = nxⁿ⁻¹",
+    variables: "n = constant exponent",
+    units: "Depends on function",
+    use: "Differentiate powers of x.",
+  },
+
+  {
+    name: "Product Rule",
+    category: "Statistics",
+    formula: "(fg)′ = f′g + fg′",
+    variables: "f,g = differentiable functions",
+    units: "Depends on functions",
+    use: "Differentiate a product of functions.",
+  },
+
+  {
+    name: "Quotient Rule",
+    category: "Statistics",
+    formula: "(f/g)′ = (gf′ − fg′)/g²",
+    variables: "f,g = differentiable functions",
+    units: "Depends on functions",
+    use: "Differentiate a quotient.",
+  },
+
+  {
+    name: "Chain Rule",
+    category: "Statistics",
+    formula: "d/dx[f(g(x))] = f′(g(x))g′(x)",
+    variables: "f,g = differentiable functions",
+    units: "Depends on functions",
+    use: "Differentiate composite functions.",
+  },
+
+  {
+    name: "Derivative of Exponential",
+    category: "Statistics",
+    formula: "d/dx(eˣ) = eˣ",
+    variables: "x = independent variable",
+    units: "Depends on function",
+    use: "Differentiate natural exponential functions.",
+  },
+
+  {
+    name: "Derivative of ln(x)",
+    category: "Statistics",
+    formula: "d/dx[ln x] = 1/x",
+    variables: "x > 0",
+    units: "Depends on x",
+    use: "Differentiate natural logarithms.",
+  },
+
+  {
+    name: "Fundamental Theorem of Calculus",
+    category: "Statistics",
+    formula: "∫ₐᵇ f(x)dx = F(b) − F(a)",
+    variables: "F′(x) = f(x)",
+    units: "Depends on function",
+    use: "Evaluate a definite integral using an antiderivative.",
+  },
+
+  {
+    name: "Integration Power Rule",
+    category: "Statistics",
+    formula: "∫xⁿdx = xⁿ⁺¹/(n+1) + C",
+    variables: "n ≠ −1 · C = constant",
+    units: "Depends on function",
+    use: "Integrate powers of x.",
+  },
+
+  // =========================================================
+  // PHYSICS — MECHANICS
+  // =========================================================
+
+  {
+    name: "Average Speed",
+    category: "Experimental",
+    formula: "v = Δd/Δt",
+    variables: "Δd = displacement/distance change · Δt = time change",
+    units: "m·s⁻¹",
+    use: "Calculate average speed or velocity.",
+  },
+
+  {
+    name: "Acceleration",
+    category: "Experimental",
+    formula: "a = Δv/Δt",
+    variables: "Δv = change in velocity · Δt = time",
+    units: "m·s⁻²",
+    use: "Calculate acceleration.",
+  },
+
+  {
+    name: "SUVAT Equation 1",
+    category: "Experimental",
+    formula: "v = u + at",
+    variables: "u = initial velocity · v = final velocity · a = acceleration · t = time",
+    units: "SI units",
+    use: "Motion under constant acceleration.",
+  },
+
+  {
+    name: "SUVAT Equation 2",
+    category: "Experimental",
+    formula: "Δx = ut + ½at²",
+    variables: "Δx = displacement · u = initial velocity · a = acceleration · t = time",
+    units: "m, m·s⁻¹, m·s⁻², s",
+    use: "Calculate displacement under constant acceleration.",
+  },
+
+  {
+    name: "SUVAT Equation 3",
+    category: "Experimental",
+    formula: "v² = u² + 2aΔx",
+    variables: "u,v = velocities · a = acceleration · Δx = displacement",
+    units: "SI units",
+    use: "Relate velocity, acceleration and displacement.",
+  },
+
+  {
+    name: "Newton's Second Law",
+    category: "Experimental",
+    formula: "F = ma",
+    variables: "F = net force · m = mass · a = acceleration",
+    units: "N, kg, m·s⁻²",
+    use: "Relate net force to acceleration.",
+  },
+
+  {
+    name: "Weight",
+    category: "Experimental",
+    formula: "F_g = mg",
+    variables: "m = mass · g = gravitational acceleration",
+    units: "N",
+    use: "Calculate gravitational force.",
+  },
+
+  {
+    name: "Momentum",
+    category: "Experimental",
+    formula: "p = mv",
+    variables: "p = momentum · m = mass · v = velocity",
+    units: "kg·m·s⁻¹",
+    use: "Calculate linear momentum.",
+  },
+
+  {
+    name: "Impulse",
+    category: "Experimental",
+    formula: "J = FΔt = Δp",
+    variables: "J = impulse · F = force · Δt = time · Δp = momentum change",
+    units: "N·s",
+    use: "Relate force, time and change in momentum.",
+  },
+
+  {
+    name: "Kinetic Energy",
+    category: "Experimental",
+    formula: "Eₖ = ½mv²",
+    variables: "m = mass · v = velocity",
+    units: "J",
+    use: "Calculate translational kinetic energy.",
+  },
+
+  {
+    name: "Gravitational Potential Energy",
+    category: "Experimental",
+    formula: "Eₚ = mgh",
+    variables: "m = mass · g = gravitational acceleration · h = height",
+    units: "J",
+    use: "Calculate gravitational potential energy.",
+  },
+
+  {
+    name: "Work Done",
+    category: "Experimental",
+    formula: "W = Fd cos θ",
+    variables: "F = force · d = displacement · θ = angle between force and displacement",
+    units: "J",
+    use: "Calculate mechanical work.",
+  },
+
+  {
+    name: "Power",
+    category: "Experimental",
+    formula: "P = W/t",
+    variables: "P = power · W = work/energy · t = time",
+    units: "W",
+    use: "Calculate rate of energy transfer.",
+  },
+
+  // =========================================================
+  // PHYSICS — ELECTRICITY
+  // =========================================================
+
+  {
+    name: "Ohm's Law",
+    category: "Experimental",
+    formula: "V = IR",
+    variables: "V = potential difference · I = current · R = resistance",
+    units: "V, A, Ω",
+    use: "Relate voltage, current and resistance.",
+  },
+
+  {
+    name: "Electrical Power",
+    category: "Experimental",
+    formula: "P = VI",
+    variables: "P = power · V = voltage · I = current",
+    units: "W",
+    use: "Calculate electrical power.",
+  },
+
+  {
+    name: "Electrical Energy",
+    category: "Experimental",
+    formula: "E = Pt = VIt",
+    variables: "P = power · t = time · V = voltage · I = current",
+    units: "J",
+    use: "Calculate electrical energy transferred.",
+  },
+
+  {
+    name: "Series Resistance",
+    category: "Experimental",
+    formula: "Rₜ = R₁ + R₂ + R₃ + …",
+    variables: "R = resistance",
+    units: "Ω",
+    use: "Calculate equivalent resistance in series.",
+  },
+
+  {
+    name: "Parallel Resistance",
+    category: "Experimental",
+    formula: "1/Rₜ = 1/R₁ + 1/R₂ + 1/R₃ + …",
+    variables: "R = resistance",
+    units: "Ω",
+    use: "Calculate equivalent resistance in parallel.",
+  },
+
+  // =========================================================
+  // PHYSICS — WAVES
+  // =========================================================
+
+  {
+    name: "Wave Equation",
+    category: "Experimental",
+    formula: "v = fλ",
+    variables: "v = wave speed · f = frequency · λ = wavelength",
+    units: "m·s⁻¹, Hz, m",
+    use: "Relate wave speed, frequency and wavelength.",
+  },
+
+  {
+    name: "Frequency and Period",
+    category: "Experimental",
+    formula: "f = 1/T",
+    variables: "f = frequency · T = period",
+    units: "Hz, s",
+    use: "Convert between frequency and period.",
+  },
+
+  {
+    name: "Angular Frequency",
+    category: "Experimental",
+    formula: "ω = 2πf",
+    variables: "ω = angular frequency · f = frequency",
+    units: "rad·s⁻¹",
+    use: "Convert frequency to angular frequency.",
+  },
+
+  // =========================================================
+  // PHYSICS — THERMODYNAMICS
+  // =========================================================
+
+  {
+    name: "Thermal Energy",
+    category: "Thermochemistry",
+    formula: "Q = mcΔT",
+    variables: "Q = heat · m = mass · c = specific heat capacity · ΔT = temperature change",
+    units: "J",
+    use: "Calculate heat transferred during a temperature change.",
+  },
+
+  {
+    name: "Latent Heat",
+    category: "Thermochemistry",
+    formula: "Q = mL",
+    variables: "Q = heat · m = mass · L = specific latent heat",
+    units: "J",
+    use: "Calculate energy involved in a phase change.",
+  },
+
+  // =========================================================
+  // CHEMISTRY — ATOMIC STRUCTURE
+  // =========================================================
+
+  {
+    name: "Photon Energy",
+    category: "Experimental",
+    formula: "E = hf",
+    variables: "E = photon energy · h = Planck constant · f = frequency",
+    units: "J",
+    use: "Calculate energy of electromagnetic radiation.",
+  },
+
+  {
+    name: "Photon Wavelength",
+    category: "Experimental",
+    formula: "c = fλ",
+    variables: "c = speed of light · f = frequency · λ = wavelength",
+    units: "m·s⁻¹, Hz, m",
+    use: "Relate electromagnetic frequency and wavelength.",
+  },
+
+  {
+    name: "de Broglie Wavelength",
+    category: "Experimental",
+    formula: "λ = h/p",
+    variables: "λ = wavelength · h = Planck constant · p = momentum",
+    units: "m",
+    use: "Calculate the wavelength associated with a particle.",
+  },
+
+  // =========================================================
+  // BIOLOGY / LIFE SCIENCES
+  // =========================================================
+
+  {
+    name: "Population Density",
+    category: "Experimental",
+    formula: "D = N/A",
+    variables: "D = population density · N = number of organisms · A = area",
+    units: "organisms·area⁻¹",
+    use: "Calculate population density in ecological studies.",
+  },
+
+  {
+    name: "Population Growth Rate",
+    category: "Statistics",
+    formula: "Growth rate = (births + immigration) − (deaths + emigration)",
+    variables: "Population changes are determined by gains and losses.",
+    units: "Individuals per time",
+    use: "Describe population change.",
+  },
+
+  {
+    name: "Percentage Population Change",
+    category: "Statistics",
+    formula: "% change = [(final − initial)/initial] × 100",
+    variables: "Initial = starting population · Final = later population",
+    units: "%",
+    use: "Calculate relative population change.",
+  },
+
+  {
+    name: "Hardy–Weinberg Equation",
+    category: "Statistics",
+    formula: "p² + 2pq + q² = 1",
+    variables: "p = frequency of allele 1 · q = frequency of allele 2",
+    units: "Frequency",
+    use: "Model allele and genotype frequencies in an ideal population.",
+  },
+
+  {
+    name: "Hardy–Weinberg Allele Relationship",
+    category: "Statistics",
+    formula: "p + q = 1",
+    variables: "p,q = allele frequencies",
+    units: "Frequency",
+    use: "Calculate allele frequencies.",
+  },
+
+  // =========================================================
+  // ENGINEERING / RESEARCH
+  // =========================================================
+
+  {
+    name: "Stress",
+    category: "Experimental",
+    formula: "σ = F/A",
+    variables: "σ = stress · F = force · A = cross-sectional area",
+    units: "Pa",
+    use: "Calculate mechanical stress in a material.",
+  },
+
+  {
+    name: "Strain",
+    category: "Experimental",
+    formula: "ε = ΔL/L₀",
+    variables: "ΔL = change in length · L₀ = original length",
+    units: "Dimensionless",
+    use: "Calculate deformation relative to original length.",
+  },
+
+  {
+    name: "Young's Modulus",
+    category: "Experimental",
+    formula: "E = σ/ε",
+    variables: "E = Young's modulus · σ = stress · ε = strain",
+    units: "Pa",
+    use: "Characterise elastic stiffness of a material.",
+  },
+
+  {
+    name: "Pressure",
+    category: "Experimental",
+    formula: "P = F/A",
+    variables: "P = pressure · F = perpendicular force · A = area",
+    units: "Pa",
+    use: "Calculate pressure from force and area.",
+  },
+
+  {
+    name: "Density",
+    category: "Experimental",
+    formula: "ρ = m/V",
+    variables: "ρ = density · m = mass · V = volume",
+    units: "kg·m⁻³",
+    use: "Calculate density of a material.",
+  },
+
+  {
+    name: "Flow Rate",
+    category: "Experimental",
+    formula: "Q = V/t",
+    variables: "Q = volumetric flow rate · V = volume · t = time",
+    units: "m³·s⁻¹",
+    use: "Calculate volumetric flow rate.",
+  },
+
+  {
+    name: "Electrical Resistance from Material",
+    category: "Experimental",
+    formula: "R = ρL/A",
+    variables: "R = resistance · ρ = resistivity · L = length · A = area",
+    units: "Ω",
+    use: "Relate resistance to material and conductor geometry.",
+  },
+
+  // =========================================================
+  // RESEARCH / STATISTICS
+  // =========================================================
+
+  {
+    name: "Sample Variance",
+    category: "Statistics",
+    formula: "s² = Σ(x − x̄)²/(n − 1)",
+    variables: "x = observation · x̄ = sample mean · n = sample size",
+    units: "Squared measurement units",
+    use: "Quantify variation within a sample.",
+  },
+
+  {
+    name: "Z-Score",
+    category: "Statistics",
+    formula: "z = (x − μ)/σ",
+    variables: "x = observation · μ = mean · σ = standard deviation",
+    units: "Dimensionless",
+    use: "Express a value relative to a population mean.",
+  },
+
+  {
+    name: "Standard Error of the Mean",
+    category: "Statistics",
+    formula: "SE = s/√n",
+    variables: "s = sample SD · n = sample size",
+    units: "Same as measurement",
+    use: "Estimate the variability of a sample mean.",
+  },
+
+  {
+    name: "Pearson Correlation",
+    category: "Statistics",
+    formula: "r = Σ[(x−x̄)(y−ȳ)] / √[Σ(x−x̄)²Σ(y−ȳ)²]",
+    variables: "x,y = observations · x̄,ȳ = means",
+    units: "Dimensionless",
+    use: "Measure linear association between two variables.",
+    caution:
+      "Correlation does not establish causation.",
+  },
+
+  {
+    name: "Coefficient of Variation",
+    category: "Statistics",
+    formula: "CV = (s/x̄) × 100",
+    variables: "s = standard deviation · x̄ = mean",
+    units: "%",
+    use: "Compare relative variability between datasets.",
+  },
+
+  {
+    name: "Percentage Error",
+    category: "Experimental",
+    formula: "% error = |experimental − accepted|/|accepted| × 100",
+    variables: "Experimental = measured value · Accepted = reference value",
+    units: "%",
+    use: "Quantify difference between a measured and accepted value.",
+  },
+
+  {
+    name: "Absolute Error",
+    category: "Experimental",
+    formula: "Absolute error = |measured − accepted|",
+    variables: "Measured = experimental result · Accepted = reference",
+    units: "Same as measurement",
+    use: "Calculate absolute difference from a reference value.",
+  },
+
+  {
+    name: "Relative Error",
+    category: "Experimental",
+    formula: "Relative error = |measured − accepted|/|accepted|",
+    variables: "Measured = experimental result · Accepted = reference",
+    units: "Dimensionless",
+    use: "Express error relative to an accepted value.",
+  },
+
+  {
+    name: "Mean Absolute Error",
+    category: "Statistics",
+    formula: "MAE = Σ|yᵢ − ŷᵢ|/n",
+    variables: "yᵢ = observed value · ŷᵢ = predicted value · n = observations",
+    units: "Same as response variable",
+    use: "Measure average prediction error.",
+  },
+
+  {
+    name: "Root Mean Square Error",
+    category: "Statistics",
+    formula: "RMSE = √[Σ(yᵢ − ŷᵢ)²/n]",
+    variables: "yᵢ = observed · ŷᵢ = predicted · n = observations",
+    units: "Same as response variable",
+    use: "Measure the magnitude of prediction errors.",
+  },
+
+  // =========================================================
+  // ENGINEERING — POWER
+  // =========================================================
+
+  {
+    name: "Electrical Energy",
+    category: "Experimental",
+    formula: "E = Pt",
+    variables: "E = energy · P = power · t = time",
+    units: "J",
+    use: "Calculate energy consumed or transferred.",
+  },
+
+  {
+    name: "Three-Phase Apparent Power",
+    category: "Experimental",
+    formula: "S = √3 V_L I_L",
+    variables: "S = apparent power · V_L = line voltage · I_L = line current",
+    units: "VA",
+    use: "Calculate apparent power in a balanced three-phase system.",
+  },
+
+  {
+    name: "Power Factor",
+    category: "Experimental",
+    formula: "PF = P/S",
+    variables: "P = real power · S = apparent power",
+    units: "Dimensionless",
+    use: "Calculate electrical power factor.",
+  },
+
+  {
+    name: "Transformer Voltage Ratio",
+    category: "Experimental",
+    formula: "Vₛ/Vₚ = Nₛ/Nₚ",
+    variables: "V = voltage · N = number of turns",
+    units: "V and turns",
+    use: "Relate primary and secondary transformer voltages.",
+  },
+
+  {
+    name: "Transformer Current Ratio",
+    category: "Experimental",
+    formula: "Iₛ/Iₚ = Nₚ/Nₛ",
+    variables: "I = current · N = number of turns",
+    units: "A and turns",
+    use: "Relate current and turns in an ideal transformer.",
+  },
+
+  // =========================================================
+  // RESEARCH — EXPERIMENTAL DESIGN
+  // =========================================================
+
+  {
+    name: "Treatment Volume per Area",
+    category: "Experimental",
+    formula: "Application rate = V/A",
+    variables: "V = treatment volume · A = treated surface area",
+    units: "mL·cm⁻²",
+    use: "Standardise how much treatment is applied to a surface.",
+    caution:
+      "Do not calculate if the surface area has not actually been measured.",
+  },
+
+  {
+    name: "Replication Mean",
+    category: "Statistics",
+    formula: "x̄ = Σx/n",
+    variables: "x = replicate measurement · n = number of valid replicates",
+    units: "Same as measurement",
+    use: "Summarise repeated experimental measurements.",
+  },
+
+  {
+    name: "Coefficient of Variation for Replicates",
+    category: "Statistics",
+    formula: "CV = (SD/mean) × 100",
+    variables: "SD = standard deviation · mean = replicate mean",
+    units: "%",
+    use: "Describe relative variation between experimental replicates.",
+    caution:
+      "Do not interpret CV when the mean is zero or when the measurement scale makes the calculation inappropriate.",
+  },
+]

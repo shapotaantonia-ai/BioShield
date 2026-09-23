@@ -328,39 +328,44 @@ export default function Calculator({
   }
 
   function runChemistryCalculation() {
-    clearResearch()
+    setResearchResult(null)
+    setWarning(null)
 
-    const value = Number(chemistryValue)
+    const rawValue = chemistryValue.trim()
+    const hydrogenIonConcentration = Number(rawValue)
 
-    if (!Number.isFinite(value)) {
-      setWarning("Enter a valid numerical value.")
+    if (
+      rawValue === "" ||
+      !Number.isFinite(hydrogenIonConcentration) ||
+      hydrogenIonConcentration <= 0
+    ) {
+      setWarning(
+        "Enter a hydrogen-ion concentration greater than zero, for example 0.001.",
+      )
       return
     }
 
-    const results = [
-      `Value = ${value}`,
-      "",
-      `pH = ${
-        value > 0
-          ? (-Math.log10(value)).toFixed(4)
-          : "undefined"
-      }`,
-      "",
-      `pOH = ${
-        value > 0
-          ? (-Math.log10(value)).toFixed(4)
-          : "undefined"
-      }`,
-      "",
-      `10⁻value = ${Math.pow(10, -value)}`,
-      "",
-      `Value² = ${Math.pow(value, 2)}`,
-    ]
+    const pH = -Math.log10(hydrogenIonConcentration)
+    const pOH = 14 - pH
+    const hydroxideIonConcentration = Math.pow(10, -pOH)
 
-    setResearchResult(results.join("\n"))
+    setResearchResult(
+      [
+        `[H⁺] = ${hydrogenIonConcentration} mol/L`,
+        "",
+        `pH = ${pH.toFixed(4)}`,
+        "",
+        `pOH = ${pOH.toFixed(4)}`,
+        "",
+        `[OH⁻] = ${hydroxideIonConcentration.toExponential(4)} mol/L`,
+        "",
+        "At 25°C:",
+        "pH + pOH = 14",
+      ].join("\n"),
+    )
 
     setWarning(
-      "Chemistry mode provides mathematical calculations. Interpret the result according to the actual chemical context and units.",
+      "The pOH relationship uses pH + pOH = 14 at 25°C.",
     )
   }
 
@@ -703,7 +708,7 @@ export default function Calculator({
               <button
                 type="button"
                 className="primary-button"
-                onClick={runResearchCalculation}
+                onClick={runChemistryCalculation}
               >
                 Calculate chemistry
               </button>
